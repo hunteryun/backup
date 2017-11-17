@@ -1,0 +1,5 @@
+name: Backup
+type: module
+description: Backup your MySQL databases.
+core: 1.x
+package: Hunter

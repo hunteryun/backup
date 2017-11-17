@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "phelium/mysql-backup": "dev-master"
+    }
+}
