@@ -2,7 +2,7 @@
 
 use Phelium\Component\MySQLBackup;
 
-function hunter_backup($file, $tables = array(), $compress = 'zip', $target = 'default') {
+function hunter_backup($file, $tables = array(), $download = TRUE, $compress = 'zip', $target = 'default') {
   global $databases;
   $Dump = new MySQLBackup($databases[$target]['host'], $databases[$target]['username'], $databases[$target]['password'], $databases[$target]['database']);
 
@@ -18,7 +18,9 @@ function hunter_backup($file, $tables = array(), $compress = 'zip', $target = 'd
   if($compress != false){
     $Dump->setCompress('zip');// zip | gz | gzip
   }
-
-  $Dump->setDownload(true); // starts downloading
+  
+  if($download){    
+    $Dump->setDownload(true); // starts downloading
+  }
   $Dump->dump();
 }
