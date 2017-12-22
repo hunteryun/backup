@@ -1,26 +1,32 @@
 <?php
 
 use Phelium\Component\MySQLBackup;
+use Hunter\backup\Plugin\Sqlite;
 
 function hunter_backup($file, $tables = array(), $download = TRUE, $compress = 'zip', $target = 'default') {
   global $databases;
-  $Dump = new MySQLBackup($databases[$target]['host'], $databases[$target]['username'], $databases[$target]['password'], $databases[$target]['database']);
+  if(isset($databases[$target]['driver']) && $databases[$target]['driver'] == 'sqlite'){
+    $Dump = new Sqlite($file, $databases[$target]['database']);
+    return $Dump->dump();
+  }else {
+    $Dump = new MySQLBackup($databases[$target]['host'], $databases[$target]['username'], $databases[$target]['password'], $databases[$target]['database']);
 
-  if(!empty($tables)){
-    $Dump->addTables($tables);
-  }
+    if(!empty($tables)){
+      $Dump->addTables($tables);
+    }
 
-  if (!is_dir(dirname($file))){
-    mkdir(dirname($file), 0755, true);
-  }
+    if (!is_dir(dirname($file))){
+      mkdir(dirname($file), 0755, true);
+    }
 
-  $Dump->setFilename($file);
-  if($compress != false){
-    $Dump->setCompress('zip');// zip | gz | gzip
+    $Dump->setFilename($file);
+    if($compress != false){
+      $Dump->setCompress('zip');// zip | gz | gzip
+    }
+
+    if($download){
+      $Dump->setDownload(true); // starts downloading
+    }
+    $Dump->dump();
   }
-  
-  if($download){    
-    $Dump->setDownload(true); // starts downloading
-  }
-  $Dump->dump();
 }

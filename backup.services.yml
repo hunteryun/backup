@@ -1,0 +1,3 @@
+services:
+  backup.sqlite_database:
+    class: Hunter\backup\Plugin\Sqlite
