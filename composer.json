@@ -1,5 +1,6 @@
 {
     "require-dev": {
+        "symfony/process": "^3.4",
         "phelium/mysql-backup": "dev-master"
     }
 }
