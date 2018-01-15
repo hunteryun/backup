@@ -69,6 +69,10 @@ class Sqlite {
 			return false;
 		}
 
+    if(!is_dir(dirname($this->backupFilename))){
+      mkdir(dirname($this->backupFilename), 0755, true);
+    }
+
 		//make a dump of our database
 		$dumpDbCommand = "sqlite3 " . $this->databasePath . " .dump > " . $this->backupFilename;
 		$dumpDb = new Process($dumpDbCommand);
